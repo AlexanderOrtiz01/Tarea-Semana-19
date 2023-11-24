@@ -74,14 +74,16 @@ WSGI_APPLICATION = 'Task19.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+
+#Cadena de conexion con la base de datos
 DATABASES = {
 'default': {
 'ENGINE': 'django.db.backends.postgresql',
-'NAME': 'nombre_de_la_base',
-'USER': 'usuario',
-'PASSWORD': 'contraseña', #Esto queda pendiente------------------------------------
-'HOST': 'nombre_del_host',
-'PORT': 'puerto',
+'NAME': 'BaseSemana19',
+'USER': 'postgres',
+'PASSWORD': 'Cool268425', 
+'HOST': 'localhost',
+'PORT': '5432',
 }
 }
 
