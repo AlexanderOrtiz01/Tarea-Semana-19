@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import Group
 
 
 #Modelos creados:
@@ -17,3 +18,12 @@ class Productos(models.Model):
     fk_prov=models.ForeignKey(Proveedores,on_delete=models.CASCADE)
     def __str__(self):
         return self.nombre
+    
+
+
+
+#Grupos
+#Grupo Cajero
+Group.objects.get_or_create(name='Cajero')
+#Grupo Estudiante
+Group.objects.get_or_create(name='Estudiante')
