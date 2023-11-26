@@ -6,6 +6,18 @@ from django.http import HttpResponseRedirect
 from .models import Productos,Proveedores
 from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.decorators import login_required
+from .models import Productos as prod
+from .Formularios import agregarProducto as addProd
+
+from .models import Proveedores as prov
+
+
+#formulario para agregar un producto
+def AgregarMedicoView(request):
+    if request.method == "POST":
+        formulario = addProd.agregarProductos(request.POST)
+        if formulario.is_valid():
+            nuevoRe
 
 #funcion de registrar un usuario
 def reg_user(request):
@@ -29,6 +41,10 @@ def index(request):
 def iniciar_sesion(request):
     if request.method == 'POST':
         form = LoginForm(request, data=request.POST)
+
+        form.fields['username'].widget.attrs.update({'class': 'form-control'})
+        form.fields['password'].widget.attrs.update({'class': 'form-control'})
+
         if form.is_valid():
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
@@ -48,10 +64,10 @@ def cerrar_sesion(request):
 
 
 #Decorator para index
-@login_required(login_url='login')
-def index(request):
-    return render(request, 'index.html', {'user':
-    request.user})
+# @login_required(login_url='login')
+# def index(request):
+#     return render(request, 'index.html', {'user':
+#     request.user})
 
 #decorator para roles
 @login_required(login_url='login')
@@ -63,3 +79,16 @@ def index(request):
         return render(request, 'index.html', {'user':
         request.user, 'es_estudiante': es_estudiante,'es_admin':
         es_admin})
+    
+
+    #---------view de proveedores-----------------
+def proveedores(request):
+    proveedoresObj = prov.objects.all()
+    return render(request, "proveedores.html",{"proveedoresT":proveedoresObj})
+
+#---------view de productos-----------------
+def productos(request):
+    productosObj = prod.objects.all()
+    proveedoresObj = prov.objects.all()
+    return render(request, "productos.html",{"productosT": productosObj,
+                                             "proveedoresT": proveedoresObj})
