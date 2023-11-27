@@ -7,7 +7,9 @@
 
     <!--Link de boostrap-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+
     <style>
         .custom-image {
             width: 200px; 
@@ -39,10 +41,49 @@
       </nav>
 
 
+      <!--Tabla-->
+      <div style="justify-content: center; margin: 50px auto; width: 70%;">
+        <h1 style="text-align: center;">Proveedores
+          <button type="button" class="btn btn-outline-primary btn-lg float-end" data-bs-toggle="modal" data-bs-target="#exampleModal">Agregar</button>
+        </h1>
+
+       <!--Modal-->
+
+       <form action="{% url 'proveedores' %}" method="post">
+        <div class="modal fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content"> 
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Nuevo Registro</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                
+                  {% csrf_token %}
+                  <div class="form-group mb-3">
+                    <label for="{{ form.nombre.id_for_label }}">Nombre Del Proveedor:</label>
+                    <input type="text" class="form-control" name="{{form.nombre.html_name}}" id="{{ form.nombre.id_for_label }}">
+                  </div>
+                  <div class="form-group mb-3">
+                    <label for="{{ form.telefono.id_for_label }}">Teléfono:</label>
+                    <input type="text" maxlength="8" class="form-control" name="{{ form.telefono.html_name}}" id="{{ form.telefono.id_for_label }}">
+                  </div>
+                  
+                <div class="modal-footer">
+                <input type="submit" value="Guardar" class="btn btn-primary">
+              </div>
+            
+              </div>
+              
+            </div>
+          </div>
+        </div>
+        </form>
+
+
       
       <!--Tabla-->
-    <div style="justify-content: center; margin: 50px auto; width: 70%;">
-        <h1 style="text-align: center;">Proveedores</h1>
+    
         <table class="table table-striped table-responsive">
             <thead>
               <tr>

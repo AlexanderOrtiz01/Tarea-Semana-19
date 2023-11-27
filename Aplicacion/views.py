@@ -8,6 +8,7 @@ from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.decorators import login_required
 from .models import Productos as prod
 from .Formularios.agregarProducto import agregarProductos as addProd
+from .Formularios.agregarProveedor import agregarProveedores as addProv
 from .models import Proveedores as prov
 
 
@@ -90,9 +91,21 @@ def index(request):
 
     #---------view de proveedores-----------------
 def proveedores(request):
-    proveedoresObj = prov.objects.all()
-    return render(request, "proveedores.html",{"proveedoresT":proveedoresObj})
+    if request.method == "POST":
+        formulario = addProv(request.POST)
+        if formulario.is_valid():
+            nuevoReg = Proveedores()
+            nuevoReg.nombre = formulario.cleaned_data['nombre']
+            nuevoReg.telefono = formulario.cleaned_data['telefono']
+            nuevoReg.save()
+            return HttpResponseRedirect("/proveedores")
 
+    else:
+        formulario = addProv()
+        proveedoresObj = prov.objects.all()
+        return render(request, "proveedores.html",{"proveedoresT":proveedoresObj,
+                                                   "form":formulario})
+    return HttpResponseRedirect("/proveedores")
 #---------view de productos-----------------
 def productos(request):
     if request.method == "POST":
@@ -113,4 +126,4 @@ def productos(request):
         return render(request, "productos.html",{"productosT": productosObj,
                                              "proveedoresT": proveedoresObj,
                                              "form":formulario})
-    return HttpResponseRedirect("/proveedores")
+    return HttpResponseRedirect("/productos")
