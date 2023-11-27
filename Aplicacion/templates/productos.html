@@ -50,43 +50,47 @@
 
         
         <!--Modal-->
+
+        <form action="{% url 'productos' %}" method="post">
 <div class="modal fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
-    <div class="modal-content">
+    <div class="modal-content"> 
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="exampleModalLabel">New message</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form>
-          <div class="mb-3">
-            <label for="recipient-name" class="col-form-label">Nombre Del Producto:</label>
-            <input type="text" class="form-control" id="inputNombre">
+        
+          {% csrf_token %}
+          <div class="form-group mb-3">
+            <label for="{{ form.nombre.id_for_label }}">Nombre Del Producto:</label>
+            <input type="text" class="form-control" name="{{form.nombre.html_name}}" id="{{ form.nombre.id_for_label }}">
           </div>
-          <div class="mb-3">
-            <label for="recipient-name" class="col-form-label">Stock/Existencias:</label>
-            <input type="text" class="form-control" id="inputStock">
+          <div class="form-group mb-3">
+            <label for="{{ form.stock.id_for_label }}">Stock/Existencias:</label>
+            <input type="text" class="form-control" name="{{ form.stock.html_name}}" id="{{ form.stock.id_for_label }}">
           </div>
-          <div class="mb-3">
-            <label for="selecProveedor" class="form-label">Proveedor:</label>
-            <select id="selecProveedor" class="form-select">
+          <div class="form-group mb-3">
+            <label for="{{ form.fk_prov.id_for_label }}">Proveedor:</label>
+            <select type="text" class="form-select" name="{{ form.fk_prov.html_name}}" id="{{ form.fk_prov.id_for_label }}">
                 {%for proveedorNombreFor in proveedoresT %}
-              <option>{{proveedorNombreFor.nombre}}</option>
+              <option value="{{ proveedorNombreFor.id }}">{{proveedorNombreFor.nombre}}</option>
               {% endfor %}
             </select>
       
           </div>
           
-        </form>
-      </div>
-      <div class="modal-footer">
+        <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary">Guardar</button>
+        <input type="submit" value="Guardar" class="btn btn-primary">
       </div>
+    
+      </div>
+      
     </div>
   </div>
 </div>
-
+</form>
 
 
 

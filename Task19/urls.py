@@ -27,7 +27,8 @@ path('registro/',app.reg_user, name="registro"),
 path('login/',app.iniciar_sesion,name="login"),
 path('logout/', app.cerrar_sesion, name='logout'),
 path('proveedores/', app.proveedores, name='proveedores'),
-path('productos/', app.productos, name='productos')
+path('productos/', app.productos, name='productos'),
+# path('addProductos/', app.Add_Productos, name='addProductos')
 
 ]
 

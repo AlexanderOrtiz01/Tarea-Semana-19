@@ -7,17 +7,24 @@ from .models import Productos,Proveedores
 from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.decorators import login_required
 from .models import Productos as prod
-from .Formularios import agregarProducto as addProd
-
+from .Formularios.agregarProducto import agregarProductos as addProd
 from .models import Proveedores as prov
 
 
 #formulario para agregar un producto
-def AgregarMedicoView(request):
-    if request.method == "POST":
-        formulario = addProd.agregarProductos(request.POST)
-        if formulario.is_valid():
-            nuevoRe
+# def Add_Productos(request):
+#     if request.method == "POST":
+#         formulario = addProd(request.POST)
+#         if formulario.is_valid():
+#             nuevoReg = Productos()
+#             nuevoReg.nombre = formulario.data['nombre']
+#             nuevoReg.stock = formulario.data['stock']
+#             nuevoReg.fk_prov = formulario.data['fk_prov']
+#             nuevoReg.save()
+#             return HttpResponseRedirect('proveedores.html')
+#     else:
+#         formulario = addProd()
+#         return render(request,"productos.html", {'form':formulario})
 
 #funcion de registrar un usuario
 def reg_user(request):
@@ -28,7 +35,7 @@ def reg_user(request):
         return HttpResponseRedirect("/")
     else:
         formulario = NewUserForm()
-        return render(request, 'Reg_user.html', {"form": formulario})
+        return render(request, 'Reg_user.html', {'form': formulario})
 
 
 #Pagina principal
@@ -88,7 +95,22 @@ def proveedores(request):
 
 #---------view de productos-----------------
 def productos(request):
-    productosObj = prod.objects.all()
-    proveedoresObj = prov.objects.all()
-    return render(request, "productos.html",{"productosT": productosObj,
-                                             "proveedoresT": proveedoresObj})
+    if request.method == "POST":
+        formulario = addProd(request.POST)
+        if formulario.is_valid():
+            nuevoReg = Productos()
+            nuevoReg.nombre = formulario.cleaned_data['nombre']
+            nuevoReg.stock = formulario.cleaned_data['stock']
+            proveedor_id = formulario.cleaned_data['fk_prov']
+            proveedor = Proveedores.objects.get(id=proveedor_id)
+            nuevoReg.fk_prov = proveedor
+            nuevoReg.save()
+            return HttpResponseRedirect("/productos")
+    else:
+        formulario = addProd()
+        productosObj = prod.objects.all()
+        proveedoresObj = prov.objects.all()
+        return render(request, "productos.html",{"productosT": productosObj,
+                                             "proveedoresT": proveedoresObj,
+                                             "form":formulario})
+    return HttpResponseRedirect("/proveedores")
